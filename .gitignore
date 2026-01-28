@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+env/
+venv/
+.venv/
+uv.lock
+pyproject.toml
+
+# Jupyter
+.ipynb_checkpoints
+
+# Data
+data/raw/*
+data/processed/*
+
+# Reports
+reports/figures/*
+
+# IDE
+.vscode/
+.idea/
