@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore")
 
 class EthiopiaFIData:
     """
-    Flexible class to load, explore, and enrich the Ethiopia Financial Inclusion unified dataset.
+    Class to load, explore, and enrich the Ethiopia Financial Inclusion unified dataset.
     Supports both .csv and .xlsx formats for main dataset and reference codes.
     Designed for reuse across notebooks.
     """
