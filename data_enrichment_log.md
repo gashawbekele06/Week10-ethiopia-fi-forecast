@@ -1,13 +1,19 @@
 # Task 1 Data Enrichment Log
 
 **Collected by:** Gashaw
-**Date:** 2026-01-28
+**Date:** 2026-01-30
 
+## Summary
 Added 4 high-confidence 2025 records:
-- Telebirr 54.84M users (July 2025)
-- M-Pesa 5M active users (Dec 2025)
-- 1,030 towns with 4G (Dec 2025)
-- NDPS 2026–2030 policy launch
+- Telebirr registered users (54.84M, July 2025)
+- M-Pesa 90-day active users (5M, Dec 2025)
+- 4G towns coverage (1,030 towns, Dec 2025)
+- NDPS 2026â€“2030 policy launch (Dec 2025)
 
-Purpose: Extend post-2024 time series and add key drivers for 2026-2027 forecasting.
-All sources documented in notebook Cell 4.
+## Purpose
+Extend post-2024 time series with recent operator/infrastructure/policy data to improve forecasting for 2026-2027 Access and Usage indicators.
+
+## Detailed Sources
+All records include source_url, original_text, confidence, collected_by, collection_date, and notes in the notebook Cell 4 enrichment section.
+
+No corrections to existing starter data.

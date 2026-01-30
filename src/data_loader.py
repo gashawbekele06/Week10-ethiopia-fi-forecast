@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore")
 
 class EthiopiaFIData:
     """
-    Class to load, explore, and enrich the Ethiopia Financial Inclusion unified dataset.
+    Flexible class to load, explore, and enrich the Ethiopia Financial Inclusion unified dataset.
     Supports both .csv and .xlsx formats for main dataset and reference codes.
     Designed for reuse across notebooks.
     """
@@ -28,25 +28,25 @@ class EthiopiaFIData:
 
         if not self.main_path.exists():
             raise FileNotFoundError(
-                f"Main dataset not found: {self.main_path}")
+                f"Main dataset not found: {self.main_path.resolve()}")
         if not self.ref_path.exists():
             raise FileNotFoundError(
-                f"Reference codes not found: {self.ref_path}")
+                f"Reference codes not found: {self.ref_path.resolve()}")
 
         # Flexible main dataset loading
         if self.main_path.suffix.lower() in ['.xlsx', '.xls']:
-            print(f"Loading main Excel file: {self.main_path}")
+            print(f"Loading main Excel file: {self.main_path.resolve()}")
             self.df = pd.read_excel(self.main_path)
         else:
-            print(f"Loading main CSV file: {self.main_path}")
+            print(f"Loading main CSV file: {self.main_path.resolve()}")
             self.df = pd.read_csv(self.main_path)
 
         # Flexible reference loading
         if self.ref_path.suffix.lower() in ['.xlsx', '.xls']:
-            print(f"Loading reference Excel file: {self.ref_path}")
+            print(f"Loading reference Excel file: {self.ref_path.resolve()}")
             self.ref_codes = pd.read_excel(self.ref_path)
         else:
-            print(f"Loading reference CSV file: {self.ref_path}")
+            print(f"Loading reference CSV file: {self.ref_path.resolve()}")
             self.ref_codes = pd.read_csv(self.ref_path)
 
         # Standardize date columns
@@ -109,7 +109,7 @@ class EthiopiaFIData:
         if date_col and date_col in events.columns:
             events = events.sort_values(date_col)
 
-        # Safe column selection - prioritize common columns
+        # Safe column selection
         possible_cols = ['category', date_col or 'event_date', 'description',
                          'event_description', 'notes', 'text', 'source_name', 'event_name']
         available_cols = [c for c in possible_cols if c in events.columns]
@@ -137,7 +137,7 @@ class EthiopiaFIData:
         return links[available_cols].head(20)
 
     def plot_temporal_coverage(self, freq: str = 'Y'):
-        """Plot observations by time period and indicator (robust to column names and invalid dates)."""
+        """Plot observations by time period and indicator (robust to invalid dates)."""
         date_col = self._get_date_column()
         if date_col is None:
             print("No date column for plotting")
@@ -148,7 +148,7 @@ class EthiopiaFIData:
             print("No observations to plot")
             return
 
-        # Drop rows with invalid dates (NaT) to avoid sorting/grouping errors
+        # Drop invalid dates
         obs = obs.dropna(subset=[date_col])
         if obs.empty:
             print("No observations with valid dates for plotting")
@@ -159,7 +159,7 @@ class EthiopiaFIData:
             print("No indicator_code or indicator column for plotting")
             return
 
-        # Ensure date column is datetime (re-coerce after drop)
+        # Re-coerce dates
         obs[date_col] = pd.to_datetime(obs[date_col], errors='coerce')
 
         grouped = obs.groupby(
@@ -184,7 +184,7 @@ class EthiopiaFIData:
             return
 
         new_df = pd.DataFrame(new_records)
-        # Fill missing columns with NaN to match schema
+        # Align columns
         for col in self.df.columns:
             if col not in new_df.columns:
                 new_df[col] = pd.NA
@@ -195,10 +195,11 @@ class EthiopiaFIData:
             f"Added {len(new_records)} new records. Total rows: {len(self.df)}")
 
     def save_enriched(self, output_path: str = "data/processed/ethiopia_fi_unified_data_enriched.csv"):
-        """Save the enriched dataset."""
-        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+        """Save the enriched dataset to data/processed/."""
+        output_path = Path(output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         self.df.to_csv(output_path, index=False)
-        print(f"Enriched dataset saved to {output_path}")
+        print(f"Enriched dataset saved to: {output_path.resolve()}")
 
     def _get_date_column(self) -> Optional[str]:
         for col in ['observation_date', 'event_date', 'date']:
