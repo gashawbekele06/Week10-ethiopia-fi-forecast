@@ -1,7 +1,7 @@
 # Task 1 Data Enrichment Log
 
 **Collected by:** Gashaw
-**Date:** 2026-01-30
+**Date:** 2026-01-31
 
 ## Summary
 Added 4 high-confidence 2025 records:
@@ -14,6 +14,6 @@ Added 4 high-confidence 2025 records:
 Extend post-2024 time series with recent operator/infrastructure/policy data to improve forecasting for 2026-2027 Access and Usage indicators.
 
 ## Detailed Sources
-All records include source_url, original_text, confidence, collected_by, collection_date, and notes in the notebook Cell 4 enrichment section.
+All records include source_url, original_text, confidence, collected_by, collection_date, and notes in the enrichment cell above.
 
 No corrections to existing starter data.
