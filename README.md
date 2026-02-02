@@ -31,13 +31,18 @@ Build a data-driven forecasting system that models how policies, product launche
 
 ## Project Structure
 
-week10-ethiopia-fi-forecast/
+ethiopia-fi-forecast/
+├── .github/workflows/ # CI unittests (pip-based)
 ├── data/
-│ ├── raw/ # Starter dataset (.xlsx)
+│ ├── raw/ # Starter unified.xlsx + reference_codes.xlsx
 │ └── processed/ # Enriched CSV from Task 1
+├── dashboard/
+│ └── app.py # Streamlit interactive dashboard
 ├── notebooks/
 │ ├── task1_data_exploration_and_enrichment.ipynb
-│ └── task2_eda.ipynb
+│ ├── task2_eda.ipynb
+│ ├── task3_modeling.ipynb
+│ └── task4_forecasting.ipynb
 ├── src/
 │ └── data_loader.py # OOP class for loading/exploring/enriching
 ├── requirements.txt
@@ -46,48 +51,31 @@ week10-ethiopia-fi-forecast/
 
 ## Completed Tasks
 
-### Task 1: Data Exploration and Enrichment
-
-- Loaded and explored unified schema (observations, events, impact_links).
-- Enriched with high-confidence 2025 data:
-  - Telebirr registered users (54.84M, July 2025)
-  - M-Pesa 90-day active users (5M, Dec 2025)
-  - 4G towns coverage (1,030 towns, Dec 2025)
-  - NDPS 2026–2030 policy launch
-- Saved enriched dataset to `data/processed/`
-- Documented additions in `data_enrichment_log.md`
-
-### Task 2: Exploratory Data Analysis
-
-- Dataset overview: record_type distribution, temporal coverage, confidence levels.
-- Access trajectory (2011–2024): visualized slowdown (+3pp 2021–2024).
-- Usage vs registered gap analysis.
-- Infrastructure/enablers trends.
-- Events overlay on access trajectory.
-- Correlation heatmap of indicators.
-- 6 key insights with evidence (slowdown explained by active gap, infrastructure as leading indicator, event impacts, data gaps, hypotheses).
+- **Task 1**: Data exploration, enrichment with 2025 records (Telebirr 54.84M, M-Pesa 5M active, 4G 1,030 towns, NDPS launch), saved processed CSV, log.
+- **Task 2**: EDA with trajectory plots, registered vs active gap, events overlay, correlation heatmap, 6 key insights, data limitations section.
+- **Task 3**: Manual event-impact association matrix (no impact_links in starter), refinements from comparables (Kenya M-Pesa adjusted), validation, methodology.
+- **Task 4**: Baseline trend + event-augmented forecasts 2025–2027, scenarios (base/optimistic/pessimistic), confidence intervals, interpretation.
+- **Task 5**: Streamlit dashboard with Overview, Trends, Forecasts, Inclusion Projections pages (4+ interactive visualizations, metrics, download).
 
 ## Setup & Installation
 
-````bash
-# Clone repo (if not already)
-git clone <your-repo-url>
+`````bash
+git clone https://github.com/gashawbekele06/Week10-ethiopia-fi-forecast.git
 cd Week10-ethiopia-fi-forecast
 
-# Recommended: uv for fast env (or pip)
-uv venv
+# Create virtual environment
+python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
-uv sync  # or pip install -r requirements.txt
 
-# Install openpyxl for Excel loading
-pip install openpyxl
+# Install dependencies
+pip install -r requirements.txt
+pip install openpyxl  # For .xlsx loading
+pip install streamlit plotly  # Dashboard
 
 
-Copy this content into your project's `README.md` file in the root directory.
+## Running the Dashboard
 
-Commit:
-```bash
-git add README.md
-git commit -m "Add comprehensive README.md with project goal, objectives, Task 1-2 summary, setup instructions"
-git push origin main
-````
+````bash
+streamlit run dashboard/app.py
+
+`````
